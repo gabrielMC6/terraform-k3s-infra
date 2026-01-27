@@ -72,7 +72,7 @@ jobs:
           push: true # Agora sim faz o push
           tags: |
             ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ github.sha }} # Tag com o hash do commit
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   deploy:
     name: Deploy to K3s Cluster
