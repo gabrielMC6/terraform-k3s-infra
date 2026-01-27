@@ -103,6 +103,7 @@ jobs:
       - name: Deploy to K3s
         uses: azure/k8s-deploy@v4
         with:
+          skip-tls-verify: true
           manifests: |
             k8s/postgres-secret.yaml
             k8s/postgres.yaml
