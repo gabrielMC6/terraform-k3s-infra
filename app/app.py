@@ -50,7 +50,7 @@ def hello():
         conn.commit()
         cur.close()
         conn.close()
-        count_msg = f"Visitas no Banco: {new_count}"
+        count_msg = f"Total de Acessos: {new_count}"
     except Exception as e:
         count_msg = f"Erro no Banco: {str(e)}"
         
