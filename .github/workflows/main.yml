@@ -107,6 +107,7 @@ jobs:
           manifests: |
             k8s/postgres-secret.yaml
             k8s/postgres.yaml
+            k8s/monitoring.yaml
             k8s/k8s-deployment.yaml
           images: |
             ${{ env.IMAGE_NAME }}:${{ github.sha }}

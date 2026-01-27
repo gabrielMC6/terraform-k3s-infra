@@ -148,7 +148,7 @@ resource "aws_instance" "k3s" {
               
               # 3. Substitui o localhost (127.0.0.1) pelo IP Público no kubeconfig para acesso remoto
               sed -i "s/127.0.0.1/$EC2_PUBLIC_IP/" /home/ubuntu/.kube/config
-              chown ubuntu:ubuntu /home/ubuntu/.kube/config
+              chown -R ubuntu:ubuntu /home/ubuntu/.kube
               chmod 600 /home/ubuntu/.kube/config
               EOF
 
