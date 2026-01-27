@@ -57,13 +57,6 @@ def hello():
 @app.route('/db')
 def db_check():
     try:
-        # Pega as credenciais das variaveis de ambiente (que o K8s vai injetar)
-        conn = psycopg2.connect(
-            host=os.environ.get("POSTGRES_HOST", "localhost"),
-            database=os.environ.get("POSTGRES_DB", "app_db"),
-            user=os.environ.get("POSTGRES_USER", "app_user"),
-            password=os.environ.get("POSTGRES_PASSWORD", "senha_padrao")
-        )
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute('SELECT version()')
