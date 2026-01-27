@@ -2,8 +2,6 @@ from flask import Flask, Response
 import prometheus_client
 import psycopg2
 import os
-import time
-import random
 
 app = Flask(__name__)
 
