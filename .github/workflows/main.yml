@@ -94,6 +94,12 @@ jobs:
         run: |
           sed -i "s|ghcr.io/YOUR_GITHUB_USERNAME/metrics-app|${{ env.IMAGE_NAME }}|g" k8s/k8s-deployment.yaml
 
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K3S_KUBECONFIG }}
+
       - name: Deploy to K3s
         uses: azure/k8s-deploy@v4
         with:
@@ -101,6 +107,5 @@ jobs:
             k8s/postgres-secret.yaml
             k8s/postgres.yaml
             k8s/k8s-deployment.yaml
-          kubeconfig: ${{ secrets.K3S_KUBECONFIG }} # Segredo que vamos criar
           images: |
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
