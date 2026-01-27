@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-app
+  labels:
+    app: metrics-app
+spec:
+  replicas: 2 # Vamos rodar 2 copias do app
+  selector:
+    matchLabels:
+      app: metrics-app
+  template:
+    metadata:
+      labels:
+        app: metrics-app
+      annotations:
+        prometheus.io/scrape: "true" # Dica para o Prometheus encontrar esse app
+        prometheus.io/port: "5000"
+    spec:
+      containers:
+      - name: python-app
+        # Certifique-se de que seu usuario do GitHub esta correto aqui
+        image: ghcr.io/YOUR_GITHUB_USERNAME/metrics-app:latest
+        imagePullPolicy: Always # Sempre busca a imagem mais recente do registry
+        env:
+        - name: POSTGRES_HOST
+          value: "postgres" # Nome do Service do banco que criamos no postgres.yaml
+        - name: POSTGRES_DB
+          value: "app_db"
+        - name: POSTGRES_USER
+          value: "app_user"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-app-service
+spec:
+  type: NodePort
+  selector:
+    app: metrics-app
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30005

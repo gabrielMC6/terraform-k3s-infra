@@ -1,0 +1,30 @@
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
+terraform.tfstate.d/
+
+# --- Chaves e Segredos (Segurança) ---
+*.pem
+*.key
+# Em produção, descomente a linha abaixo para ignorar secrets do K8s
+# *-secret.yaml
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+.venv/
+pip-log.txt
+
+# --- IDEs e Sistema ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
