@@ -1,34 +1,56 @@
-1.  **Infraestrutura (Terraform)**: Provisiona uma instância EC2 na AWS, instala o K3s (um cluster Kubernetes leve) e configura os Security Groups necessários.
-2.  **Aplicação (Python/Flask)**: Uma aplicação web simples que expõe uma rota `/` e uma rota `/metrics` para monitoramento com Prometheus.
-3.  **Banco de Dados (PostgreSQL)**: Banco de dados relacional rodando dentro do cluster, com persistência em disco (PVC).
-4.  **Contêiner (Docker)**: A aplicação é empacotada em uma imagem Docker.
-5.  **Orquestração (Kubernetes)**: Deployments e Services gerenciam a aplicação e o banco no cluster K3s.
-6.  **CI/CD (GitHub Actions)**: Um pipeline automatizado que:
-    *   **Testa** a aplicação com `pytest`.
-    *   **Verifica Segurança** da imagem Docker com **Trivy** (DevSecOps).
-    *   **Constrói** a imagem Docker e a **publica** no GitHub Container Registry (GHCR).
-    *   **Implanta** a nova versão da aplicação no cluster K3s.
+🚀 AWS K3s Lab: Infraestrutura, Persistência e CI/CD
+Este projeto demonstra o provisionamento de uma infraestrutura em nuvem na AWS utilizando Terraform e a orquestração de uma aplicação Python/Flask em um cluster K3s. O foco está na automação do deploy e na garantia de persistência dos dados.
 
-- **Infraestrutura como Código**: Toda a infraestrutura é gerenciável e versionável.
-- **Deploy Automatizado**: Zero intervenção manual para novos deploys após o setup inicial.
-- **Testes Integrados**: O pipeline só prossegue se os testes unitários passarem.
-- **Segurança (DevSecOps)**: Bloqueia o deploy se vulnerabilidades críticas forem encontradas na imagem.
-- **Acesso Remoto Seguro**: Geração automática de chave SSH e configuração para acesso ao cluster.
+<img width="803" height="236" alt="modelo diagrama" src="https://github.com/user-attachments/assets/e42b4de3-c49a-4278-90b2-b3f85299948f" />
+
+
+🛠️ O que foi implementado
+1. Infraestrutura como Código (IaC)
+Provisionamento automatizado de VPC, Security Groups e instância EC2 via Terraform. O cluster K3s é configurado via User Data script, garantindo um ambiente pronto para uso logo após o boot da máquina.
+
+<img width="806" height="147" alt="VPCCC" src="https://github.com/user-attachments/assets/1f2be9ba-1149-407a-aec1-d9b1d8bab7a3" />
+
+
+2. Persistência de Dados
+O banco de dados PostgreSQL utiliza Persistent Volume Claims (PVC) para armazenamento.
+
+Por que importa: Isso garante que as informações salvas no banco não sejam perdidas caso o container ou a instância precisem ser reiniciados.
+
+3. Segurança no Pipeline (DevSecOps)
+Integração do Trivy no GitHub Actions para realizar o scan da imagem Docker.
+
+O que faz: O pipeline interrompe o deploy caso sejam detectadas vulnerabilidades críticas na imagem, garantindo que apenas código minimamente seguro chegue ao cluster.
+
+
+<img width="941" height="326" alt="ciecd" src="https://github.com/user-attachments/assets/92e75595-b267-4ed9-b46e-9c32b494cbec" />
+
+
+
+4. Monitoramento e Métricas
+Uso de Prometheus & Grafana para observabilidade do sistema.
+
+Métricas: Acompanhamento de visitas por hora.
+<img width="945" height="425" alt="grafana acessos" src="https://github.com/user-attachments/assets/ee880238-210c-4538-80c1-798e5a9ad7e0" />
+
 
 ## 📂 Estrutura do Projeto
-│   ├── test_app.py
-│   └── Dockerfile
-├── k8s/                  # Manifestos do Kubernetes
-│   ├── k8s-deployment.yaml
-│   ├── postgres.yaml
-│   └── postgres-secret.yaml
-├── terrafrom/            # Código Terraform para a infraestrutura
-│   ├── main.tf
-│   ├── variables.tf
+/terraform: Scripts de automação AWS.
 
-- **URL da Aplicação**: `http://<IP_PUBLICO_DA_INSTANCIA>:30005`
-- **URL das Métricas**: `http://<IP_PUBLICO_DA_INSTANCIA>:30005/metrics`
-- **Teste de Conexão DB**: `http://<IP_PUBLICO_DA_INSTANCIA>:30005/db`
-- **Grafana**: `http://<IP_PUBLICO_DA_INSTANCIA>:30007` (Login: admin / admin)
+/k8s: Manifestos de Deployment, Service e PVC.
+
+/app: Código Flask, Dockerfile e Testes unitários.
+
+- 🌐 Endpoints da Infraestrutura
+A aplicação e os serviços de monitoramento podem ser acessados através dos endereços abaixo:
+
+Aplicação Web: http://98.84.117.231:30005/
+
+Teste de Persistência (DB): http://98.84.117.231:30005/db
+
+Métricas da App (Prometheus): http://98.84.117.231:30005/metrics
+
+Dashboard Grafana: http://98.84.117.231:30007
+
+Credenciais padrão: admin / admin
 
 O IP público pode ser obtido novamente com o comando `terraform output ec2_public_ip` na pasta `terrafrom`.
