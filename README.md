@@ -1,10 +1,9 @@
-🚀 AWS K3s Lab: Infraestrutura, Persistência e CI/CD
+ AWS K3s Lab: Infraestrutura, Persistência e CI/CD
 Este projeto demonstra o provisionamento de uma infraestrutura em nuvem na AWS utilizando Terraform e a orquestração de uma aplicação Python/Flask em um cluster K3s. O foco está na automação do deploy e na garantia de persistência dos dados.
 
 <img width="803" height="236" alt="modelo diagrama" src="https://github.com/user-attachments/assets/e42b4de3-c49a-4278-90b2-b3f85299948f" />
 
-
-🛠️ O que foi implementado
+ O que foi implementado:
 1. Infraestrutura como Código (IaC)
 Provisionamento automatizado de VPC, Security Groups e instância EC2 via Terraform. O cluster K3s é configurado via User Data script, garantindo um ambiente pronto para uso logo após o boot da máquina.
 
@@ -40,7 +39,7 @@ Métricas: Acompanhamento de visitas por hora.
 
 /app: Código Flask, Dockerfile e Testes unitários.
 
-- 🌐 Endpoints da Infraestrutura
+ Endpoints da Infraestrutura
 A aplicação e os serviços de monitoramento podem ser acessados através dos endereços abaixo:
 
 Aplicação Web: http://98.84.117.231:30005/
