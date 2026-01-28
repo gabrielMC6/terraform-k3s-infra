@@ -51,6 +51,3 @@ Métricas da App (Prometheus): http://98.84.117.231:30005/metrics
 
 Dashboard Grafana: http://98.84.117.231:30007
 
-Credenciais padrão: admin / admin
-
-O IP público pode ser obtido novamente com o comando `terraform output ec2_public_ip` na pasta `terrafrom`.
