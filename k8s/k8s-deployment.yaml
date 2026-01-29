@@ -14,7 +14,7 @@ spec:
       labels:
         app: metrics-app
       annotations:
-        prometheus.io/scrape: "true" # Dica para o Prometheus encontrar esse app
+        prometheus.io/scrape: "true"
         prometheus.io/port: "5000"
     spec:
       containers:
@@ -24,7 +24,7 @@ spec:
         imagePullPolicy: Always # Sempre busca a imagem mais recente do registry
         env:
         - name: POSTGRES_HOST
-          value: "postgres" # Nome do Service do banco que criamos no postgres.yaml
+          value: "postgres"
         - name: POSTGRES_DB
           value: "app_db"
         - name: POSTGRES_USER
